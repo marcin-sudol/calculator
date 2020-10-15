@@ -1,0 +1,54 @@
+// VARIABLES
+$color-0: white;
+$color-light: hsl(46, 100%, 97%);
+$color-medium: hsl(38, 16%, 76%);
+$color-dark: hsl(34, 6%, 24%);
+$color-accent-light: hsl(17, 83%, 54%);
+$color-accent-dark: hsl(40, 4%, 14%);
+
+$font-em: cursive;
+$font-normal: sans-serif;
+
+// DEFAULT VALUES
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $font-normal;
+  border: 1px solid;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  #calculator {
+    padding: 10px;
+    width: 500px;
+    max-width: 100%;
+
+    #header {
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+    }
+
+    #display {
+      margin-bottom: 40px;
+      padding-left: 10px;
+      padding-right: 10px;
+      height: 50px;
+      line-height: 50px;
+      text-align: right;
+    }
+
+    #keyboard {
+      display: grid;
+      grid-template: repeat(5, 50px) / repeat(4, 1fr);
+      gap: 5px;
+      padding: 15px;
+    }
+  }
+}
