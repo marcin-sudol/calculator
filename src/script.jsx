@@ -12,7 +12,7 @@ const buttons = [
     { type: "number", id: "decimal", label: ".", gridArea: "5 / 3 / span 1 / span 1" },
     { type: "operator", id: "add", label: "+", gridArea: "3 / 4 / span 1 / span 1" },
     { type: "operator", id: "subtract", label: "-", gridArea: "2 / 4 / span 1 / span 1" },
-    { type: "operator", id: "multiply", label: "X", gridArea: "1 / 4 / span 1 / span 1" },
+    { type: "operator", id: "multiply", label: "*", gridArea: "1 / 4 / span 1 / span 1" },
     { type: "operator", id: "divide", label: "/", gridArea: "1 / 3 / span 1 / span 1" },
     { type: "operator", id: "equals", label: "=", gridArea: "4 / 4 / span 2 / span 1" },
     { type: "interface", id: "clear", label: "AC", gridArea: "1 / 1 / span 1 / span 2" }
@@ -66,13 +66,18 @@ class Calculator extends React.Component {
         // ----- STATE FOR STATEFUL COMPONENT -----
         this.state = {
             currentNum: "0",
+            currentSign: "",
             previousNum: "",
-            operator: "",
-            negative: ""
+            previousSign: "",
+            operator: ""
+
+
         };
 
         // ----- BINDING METHODS -----
         this.handleInput = this.handleInput.bind(this);
+        this.handleInputNumber = this.handleInputNumber.bind(this);
+        this.handleInputOperator = this.handleInputOperator.bind(this);
     }
 
     // ----- PROP TYPES -----
@@ -80,83 +85,152 @@ class Calculator extends React.Component {
         buttons: PropTypes.array.isRequired
     }
 
-    // ----- HANDLE INPUT -----
-    handleInput(id) {
-
+    // HANDLE INPUT NUMBER
+    handleInputNumber(button) {
         let curr = this.state.currentNum;
+        let currS = this.state.currentSign;
         let prev = this.state.previousNum;
+        let prevS = this.state.previousSign;
         let oper = this.state.operator;
-        let neg = this.state.negative;
 
-        let button = this.props.buttons.find(button => (button.id === id));
-
-        // INPUT CLEAR
-        if (button.id === 'clear') {
-            curr = '0';
-            prev = '';
-            oper = '';
-            // INPUT NUMBER
-        } else if (button.type === 'number') {
-            // DECIMAL
+        // only previous number and no operator (as result from last calculation) 
+        if ((prev != '') && (curr === '') && (oper === '')) {
             if (button.id === 'decimal') {
-                if (!curr.includes(button.label)) {
-                    curr += button.label;
-                }
-                // REPLACE LEADING ZERO
-            } else if (curr === '0') {
-                curr = button.label;
+                curr = '0.';
             } else {
+                curr = button.label;
+            }
+            currS = '';
+            prev = '';
+            prevS = '';
+            // only one decimal
+        } else if (button.id === 'decimal') {
+            if (!curr.includes(button.label)) {
                 curr += button.label;
             }
-            //INPUT OPERATOR
-        } else if (button.type === 'operator') {
-            if ((prev != '') && (curr != '')) { // there are two numbers
-                let num1 = parseFloat(prev);
-                let num2 = parseFloat(curr);
-                console.log(num1, oper, num2);
-                let num3 = 0;
-                switch (oper) {
-                    case '+': num3 = num1 + num2; break;
-                    case '-': num3 = num1 - num2; break;
-                    case 'X': num3 = num1 * num2; break;
-                    case '/': num3 = num1 / num2; break;
-                }
-                console.log(num3);
-                if (button.id === 'equals') { // only perform calculation
-                    curr = num3.toString();
-                    prev = '';
-                    oper = '';
-                } else { // perform calculation and add operator
-                    curr = '';
-                    prev = num3.toString();
-                    oper = button.label;
-                }
-
-            } else if ((prev === '') && (curr != '')) {// there is only current number
-                prev = curr;
-                curr = '';
-                if (button.id != 'equals') // if other than equal update operator
-                    oper = button.label;
-            } else if ((prev != '') && (curr === '')) {// there is only previous number
-                if (button.id != 'equals') // if other than equal update operator
-                    oper = button.label;
-            }
+            // replace leading zero
+        } else if (curr === '0') {
+            curr = button.label;
+        } else {
+            curr += button.label;
         }
 
         this.setState({
             currentNum: curr,
+            currentSign: currS,
             previousNum: prev,
-            operator: oper,
-            negative: neg
-        })
+            previousSign: prevS,
+            operator: oper
+        });
+    }
 
-        // ----- SET STATE -----
-        // this.setState({ output: input.id });
+    // HANDLE INPUT OPERATOR
+    handleInputOperator(button) {
+
+        let curr = this.state.currentNum;
+        let currS = this.state.currentSign;
+        let prev = this.state.previousNum;
+        let prevS = this.state.previousSign;
+        let oper = this.state.operator;
+
+        // application is cleared
+        if ((prev === '') && (curr === '0')) {
+            if (button.id === 'subtract') {
+                curr = '';
+                currS = '-';
+            } else if (button.id === 'equals') {
+                // do nothing
+            } else
+                currS = '';
+            // only sign for current number
+        } else if ((prev === '') && (curr === '') && (currS === '-')) {
+            if (button.id != 'subtract') {
+                curr = '0';
+                currS = '';
+            }
+            // only current number and no operator
+        } else if ((prev === '') && (curr != '') && (oper === '')) {
+            if (button.id != 'equals') {
+                prev = curr;
+                prevS = currS;
+                curr = '';
+                currS = '';
+                oper = button.label;
+            }
+            // only previous number and no operator (as result from last calculation) 
+        } else if ((prev != '') && (curr === '') && (oper === '')) {
+            if (button.id != 'equals') {
+                oper = button.label;
+            }
+            // previous number and operator
+        } else if ((prev != '') && (curr === '') && (oper != '')) {
+            if (button.id === 'subtract') { // subtract
+                if (oper != '-')
+                    currS = '-';
+            } else if (button.id === 'equals') { // equals
+                // do nothing
+            } else { // other
+                oper = button.label;
+                currS = '';
+            }
+            // two numbers
+        } else if ((prev != '') && (curr != '') && (oper != '')) {
+            let num1 = parseFloat(prevS + prev);
+            let num2 = parseFloat(currS + curr);
+            let num3 = 0;
+            switch (oper) {
+                case '+': num3 = num1 + num2; break;
+                case '-': num3 = num1 - num2; break;
+                case '*': num3 = num1 * num2; break;
+                case '/': num3 = num1 / num2; break;
+            }
+            console.log(num1 + oper + num2 + '=' + num3);
+            prev = Math.abs(num3).toString();
+            if (num3 < 0) prevS = '-';
+            curr = '';
+            currS = '';
+            if (button.id === 'equals')
+                oper = '';
+            else
+                oper = button.label;
+        }
+
+        this.setState({
+            currentNum: curr,
+            currentSign: currS,
+            previousNum: prev,
+            previousSign: prevS,
+            operator: oper
+        });
+    }
+
+    // ----- HANDLE INPUT -----
+    handleInput(id) {
+
+        let button = this.props.buttons.find(button => (button.id === id));
+
+        if (button.id === 'clear')
+            this.setState({
+                currentNum: "0",
+                currentSign: "",
+                previousNum: "",
+                previousSign: "",
+                operator: ""
+
+            });
+        else if (button.type === 'number')
+            this.handleInputNumber(button);
+        else if (button.type === 'operator')
+            this.handleInputOperator(button);
     }
 
     // ----- RENDER -----
     render() {
-        const output = this.state.previousNum + this.state.operator + this.state.negative + this.state.currentNum;
+        const output = this.state.previousSign
+            + this.state.previousNum
+            + this.state.operator
+            + this.state.currentSign
+            + this.state.currentNum;
 
         return (
             <div id="calculator">
