@@ -1,13 +1,13 @@
 // VARIABLES
-$color-0: white;
-$color-light: hsl(46, 100%, 97%);
-$color-medium: hsl(38, 16%, 76%);
-$color-dark: hsl(34, 6%, 24%);
-$color-accent-light: hsl(17, 83%, 54%);
-$color-accent-dark: hsl(40, 4%, 14%);
+$color-light: #eee;
+$color-medium: #bbb;
+$color-dark: #333533;
+$color-darker: #242423;
+$accent-light: #f5cb5c;
+$accent-dark: #db5461;
 
-$font-em: cursive;
-$font-normal: sans-serif;
+$font-normal: "Orbitron", sans-serif;
+$font-em: "Audiowide", cursive;
 
 // DEFAULT VALUES
 * {
@@ -15,40 +15,79 @@ $font-normal: sans-serif;
   padding: 0;
   box-sizing: border-box;
   font-family: $font-normal;
-  border: 1px solid;
+  // border: 1px solid;
 }
 
 main {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 5px;
   min-height: 100vh;
+  background-image: linear-gradient($color-medium, $color-light);
 
   #calculator {
     padding: 10px;
     width: 500px;
     max-width: 100%;
+    background-color: $color-dark;
+    border-radius: 5px;
 
     #header {
       height: 30px;
       line-height: 30px;
-      text-align: center;
+      text-align: left;
+      color: $color-light;
+      // text-transform: uppercase;
     }
 
     #display {
+      margin-top: 5px;
       margin-bottom: 40px;
       padding-left: 10px;
       padding-right: 10px;
       height: 50px;
       line-height: 50px;
       text-align: right;
+      background: $color-darker;
+      border: 1px solid $color-light;
+      border-radius: 5px;
+      color: $accent-light;
+      font-family: $font-em;
+      font-size: 26px;
+      font-style: italic;
     }
 
     #keyboard {
       display: grid;
-      grid-template: repeat(5, 50px) / repeat(4, 1fr);
-      gap: 5px;
-      padding: 15px;
+      grid-template: repeat(5, 45px) / repeat(4, 1fr);
+      gap: 7px;
+      padding: 20px;
+      background: $color-darker;
+      border-radius: 5px;
+
+      button {
+        background-color: white;
+        border: none;
+        color: $color-darker;
+        font-size: 30px;
+
+        &.operator {
+          background-color: $accent-light;
+        }
+        &.operator[id="equals"] {
+          background-color: $color-medium;
+        }
+
+        &.interface {
+          background-color: $accent-dark;
+          color: white;
+        }
+
+        &:active {
+          transform: scale(0.96);
+        }
+      }
     }
   }
 }
