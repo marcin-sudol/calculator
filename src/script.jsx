@@ -103,6 +103,13 @@ class Calculator extends React.Component {
             currS = '';
             prev = '';
             prevS = '';
+            // only previous number and operator
+        } else if ((prev != '') && (curr === '') && (oper != '')) {
+            if (button.id === 'decimal') {
+                curr = '0.';
+            } else {
+                curr = button.label;
+            }
             // only one decimal
         } else if (button.id === 'decimal') {
             if (!curr.includes(button.label)) {

@@ -5,7 +5,11 @@
 n-+ n+
 n+- n+-
 n+-+ n+
+
 -n+-n= -2n
 -n+-n=+n -3n
 n+n=n n
 n+n+n= 3n
+
+n+n=. 0.
+n+n+. 2n+0.
