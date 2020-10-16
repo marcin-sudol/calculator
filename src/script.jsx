@@ -78,6 +78,7 @@ class Calculator extends React.Component {
         this.handleInput = this.handleInput.bind(this);
         this.handleInputNumber = this.handleInputNumber.bind(this);
         this.handleInputOperator = this.handleInputOperator.bind(this);
+        this.formatNum = this.formatNum.bind(this);
     }
 
     // ----- PROP TYPES -----
@@ -235,10 +236,22 @@ class Calculator extends React.Component {
             this.handleInputOperator(button);
     }
 
+    // FORMAT NUMBER
+    formatNum(str) {
+        if (str === '')
+            return str;
+        else {
+            let newStr = parseFloat(str).toPrecision(9);
+            if (newStr.includes('.'))
+                newStr = newStr.replace(/\.?0+$/, '');
+            return newStr;
+        }
+    }
+
     // ----- RENDER -----
     render() {
         const output = this.state.previousSign
-            + this.state.previousNum
+            + this.formatNum(this.state.previousNum)
             + this.state.operator
             + this.state.currentSign
             + this.state.currentNum;
