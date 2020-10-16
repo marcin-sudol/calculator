@@ -65,7 +65,10 @@ class Calculator extends React.Component {
 
         // ----- STATE FOR STATEFUL COMPONENT -----
         this.state = {
-            output: ""
+            currentNum: "0",
+            previousNum: "",
+            operator: "",
+            negative: ""
         };
 
         // ----- BINDING METHODS -----
@@ -77,18 +80,88 @@ class Calculator extends React.Component {
         buttons: PropTypes.array.isRequired
     }
 
-    // ----- METHODS -----
+    // ----- HANDLE INPUT -----
     handleInput(id) {
+
+        let curr = this.state.currentNum;
+        let prev = this.state.previousNum;
+        let oper = this.state.operator;
+        let neg = this.state.negative;
+
+        let button = this.props.buttons.find(button => (button.id === id));
+
+        // INPUT CLEAR
+        if (button.id === 'clear') {
+            curr = '0';
+            prev = '';
+            oper = '';
+            // INPUT NUMBER
+        } else if (button.type === 'number') {
+            // DECIMAL
+            if (button.id === 'decimal') {
+                if (!curr.includes(button.label)) {
+                    curr += button.label;
+                }
+                // REPLACE LEADING ZERO
+            } else if (curr === '0') {
+                curr = button.label;
+            } else {
+                curr += button.label;
+            }
+            //INPUT OPERATOR
+        } else if (button.type === 'operator') {
+            if ((prev != '') && (curr != '')) { // there are two numbers
+                let num1 = parseFloat(prev);
+                let num2 = parseFloat(curr);
+                console.log(num1, oper, num2);
+                let num3 = 0;
+                switch (oper) {
+                    case '+': num3 = num1 + num2; break;
+                    case '-': num3 = num1 - num2; break;
+                    case 'X': num3 = num1 * num2; break;
+                    case '/': num3 = num1 / num2; break;
+                }
+                console.log(num3);
+                if (button.id === 'equals') { // only perform calculation
+                    curr = num3.toString();
+                    prev = '';
+                    oper = '';
+                } else { // perform calculation and add operator
+                    curr = '';
+                    prev = num3.toString();
+                    oper = button.label;
+                }
+
+            } else if ((prev === '') && (curr != '')) {// there is only current number
+                prev = curr;
+                curr = '';
+                if (button.id != 'equals') // if other than equal update operator
+                    oper = button.label;
+            } else if ((prev != '') && (curr === '')) {// there is only previous number
+                if (button.id != 'equals') // if other than equal update operator
+                    oper = button.label;
+            }
+        }
+
+        this.setState({
+            currentNum: curr,
+            previousNum: prev,
+            operator: oper,
+            negative: neg
+        })
+
         // ----- SET STATE -----
-        this.setState({ output: id });
+        // this.setState({ output: input.id });
     }
 
     // ----- RENDER -----
     render() {
+        const output = this.state.previousNum + this.state.operator + this.state.negative + this.state.currentNum;
+
         return (
             <div id="calculator">
                 <header id="header">Calculator</header>
-                <Display output={this.state.output} />
+                <Display output={output} />
                 <div id="keyboard">
                     {this.props.buttons.map(button => (
                         <Button
