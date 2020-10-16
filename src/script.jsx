@@ -110,16 +110,17 @@ class Calculator extends React.Component {
             } else {
                 curr = button.label;
             }
-            // only one decimal
+            // add decimal
         } else if (button.id === 'decimal') {
             if (!curr.includes(button.label)) {
                 curr += button.label;
             }
-            // replace leading zero
+            // add digit - max 9 digits
         } else if (curr === '0') {
             curr = button.label;
         } else {
-            curr += button.label;
+            if ((curr.length < 9) || ((curr.length === 9) && (curr.includes('.'))))
+                curr += button.label;
         }
 
         this.setState({
