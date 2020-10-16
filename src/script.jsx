@@ -193,7 +193,10 @@ class Calculator extends React.Component {
             }
             console.log(num1 + oper + num2 + '=' + num3);
             prev = Math.abs(num3).toString();
-            if (num3 < 0) prevS = '-';
+            if (num3 < 0)
+                prevS = '-';
+            else
+                prevS = '';
             curr = '';
             currS = '';
             if (button.id === 'equals')
