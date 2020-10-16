@@ -37,7 +37,7 @@ main {
       height: 30px;
       line-height: 30px;
       text-align: left;
-      color: $color-light;
+      color: $color-medium;
       // text-transform: uppercase;
     }
 
@@ -50,7 +50,7 @@ main {
       line-height: 50px;
       text-align: right;
       background: $color-darker;
-      border: 1px solid $color-light;
+      border: 1px solid $color-medium;
       border-radius: 5px;
       color: $accent-light;
       font-family: $font-em;
