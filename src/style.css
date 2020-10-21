@@ -1,0 +1,62 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Orbitron", sans-serif; }
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  min-height: 100vh;
+  background-image: linear-gradient(#bbb, #eee); }
+  main #calculator {
+    padding: 10px;
+    width: 500px;
+    max-width: 100%;
+    background-color: #333533;
+    border-radius: 5px; }
+    main #calculator #header {
+      height: 30px;
+      line-height: 30px;
+      text-align: left;
+      color: #bbb; }
+    main #calculator #display {
+      margin-top: 5px;
+      margin-bottom: 40px;
+      padding-left: 10px;
+      padding-right: 10px;
+      height: 50px;
+      line-height: 50px;
+      text-align: right;
+      background: #242423;
+      border: 1px solid #bbb;
+      border-radius: 5px;
+      color: #f5cb5c;
+      font-family: "Audiowide", cursive;
+      font-size: 26px;
+      font-style: italic; }
+    main #calculator #keyboard {
+      display: grid;
+      grid-template: repeat(5, 45px)/repeat(4, 1fr);
+      gap: 7px;
+      padding: 20px;
+      background: #242423;
+      border-radius: 5px; }
+      main #calculator #keyboard button {
+        background-color: white;
+        border: none;
+        color: #242423;
+        font-size: 30px; }
+        main #calculator #keyboard button.operator {
+          background-color: #f5cb5c; }
+        main #calculator #keyboard button.operator[id="equals"] {
+          background-color: #bbb; }
+        main #calculator #keyboard button.interface {
+          background-color: #db5461;
+          color: white; }
+        main #calculator #keyboard button:active {
+          transform: scale(0.96); }
+
+/*# sourceMappingURL=style.css.map */
