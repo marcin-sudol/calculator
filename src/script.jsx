@@ -138,6 +138,7 @@ class Calculator extends React.Component {
       previousNum: "",
       previousSign: "",
       operator: "",
+      overflow: false,
     };
 
     // ----- BINDING METHODS -----
@@ -159,9 +160,12 @@ class Calculator extends React.Component {
     let prev = this.state.previousNum;
     let prevS = this.state.previousSign;
     let oper = this.state.operator;
+    let overflow = this.state.overflow;
 
+    // there is overflow
+    // or
     // only previous number and no operator (as result from last calculation)
-    if (prev != "" && curr === "" && oper === "") {
+    if (overflow || (prev != "" && curr === "" && oper === "")) {
       if (button.id === "decimal") {
         curr = "0.";
       } else {
@@ -170,20 +174,25 @@ class Calculator extends React.Component {
       currS = "";
       prev = "";
       prevS = "";
-      // only previous number and operator
-    } else if (prev != "" && curr === "" && oper != "") {
+      oper = "";
+      overflow = false;
+    }
+    // only previous number and operator
+    else if (prev != "" && curr === "" && oper != "") {
       if (button.id === "decimal") {
         curr = "0.";
       } else {
         curr = button.label;
       }
-      // add decimal
-    } else if (button.id === "decimal") {
+    }
+    // add decimal
+    else if (button.id === "decimal") {
       if (!curr.includes(button.label)) {
         curr += button.label;
       }
-      // add digit - max 9 digits
-    } else if (curr === "0") {
+    }
+    // add digit - max 9 digits
+    else if (curr === "0") {
       curr = button.label;
     } else {
       if (curr.length < 9 || (curr.length === 9 && curr.includes(".")))
@@ -196,6 +205,7 @@ class Calculator extends React.Component {
       previousNum: prev,
       previousSign: prevS,
       operator: oper,
+      overflow: overflow,
     });
   }
 
@@ -206,23 +216,37 @@ class Calculator extends React.Component {
     let prev = this.state.previousNum;
     let prevS = this.state.previousSign;
     let oper = this.state.operator;
+    let overflow = this.state.overflow;
 
+    // there was overflow
+    if (overflow) {
+      if (button.id === "subtract") {
+        curr = "";
+        currS = "-";
+        prev = "";
+        prevS = "";
+        oper = "";
+        overflow = false;
+      }
+    }
     // application is cleared
-    if (prev === "" && curr === "0") {
+    else if (prev === "" && curr === "0") {
       if (button.id === "subtract") {
         curr = "";
         currS = "-";
       } else if (button.id === "equals") {
         // do nothing
       } else currS = "";
-      // only sign for current number
-    } else if (prev === "" && curr === "" && currS === "-") {
+    }
+    // only sign for current number
+    else if (prev === "" && curr === "" && currS === "-") {
       if (button.id != "subtract") {
         curr = "0";
         currS = "";
       }
-      // only current number and no operator
-    } else if (prev === "" && curr != "" && oper === "") {
+    }
+    // only current number and no operator
+    else if (prev === "" && curr != "" && oper === "") {
       if (button.id != "equals") {
         prev = curr;
         prevS = currS;
@@ -230,13 +254,15 @@ class Calculator extends React.Component {
         currS = "";
         oper = button.label;
       }
-      // only previous number and no operator (as result from last calculation)
-    } else if (prev != "" && curr === "" && oper === "") {
+    }
+    // only previous number and no operator (as result from last calculation)
+    else if (prev != "" && curr === "" && oper === "") {
       if (button.id != "equals") {
         oper = button.label;
       }
-      // previous number and operator
-    } else if (prev != "" && curr === "" && oper != "") {
+    }
+    // previous number and operator
+    else if (prev != "" && curr === "" && oper != "") {
       if (button.id === "subtract") {
         // subtract
         if (oper != "-") currS = "-";
@@ -248,8 +274,9 @@ class Calculator extends React.Component {
         oper = button.label;
         currS = "";
       }
-      // two numbers
-    } else if (prev != "" && curr != "" && oper != "") {
+    }
+    // two numbers
+    else if (prev != "" && curr != "" && oper != "") {
       let num1 = parseFloat(prevS + prev);
       let num2 = parseFloat(currS + curr);
       let num3 = 0;
@@ -275,6 +302,12 @@ class Calculator extends React.Component {
       currS = "";
       if (button.id === "equals") oper = "";
       else oper = button.label;
+
+      // check for overflow
+      let precision = prev.match(/(?<=e[+|-])\d+/);
+      if (precision !== null && precision[0] > 30) {
+        overflow = true;
+      }
     }
 
     this.setState({
@@ -283,6 +316,7 @@ class Calculator extends React.Component {
       previousNum: prev,
       previousSign: prevS,
       operator: oper,
+      overflow: overflow,
     });
   }
 
@@ -297,6 +331,7 @@ class Calculator extends React.Component {
         previousNum: "",
         previousSign: "",
         operator: "",
+        overflow: false,
       });
     else if (button.type === "number") this.handleInputNumber(button);
     else if (button.type === "operator") this.handleInputOperator(button);
@@ -314,12 +349,13 @@ class Calculator extends React.Component {
 
   // ----- RENDER -----
   render() {
-    const output =
-      this.state.previousSign +
-      this.formatNum(this.state.previousNum) +
-      this.state.operator +
-      this.state.currentSign +
-      this.state.currentNum;
+    const output = this.state.overflow
+      ? "Overflow"
+      : this.state.previousSign +
+        this.formatNum(this.state.previousNum) +
+        this.state.operator +
+        this.state.currentSign +
+        this.state.currentNum;
 
     return (
       <div id="calculator">
