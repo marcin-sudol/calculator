@@ -36,9 +36,6 @@ main {
     width: 100%;
     max-width: 25em;
     font-size: 1.6rem;
-    @media (min-width: 768px) {
-      font-size: 2rem;
-    }
     background-color: $color-dark;
     border-radius: 0.4em;
 
@@ -52,7 +49,7 @@ main {
     #display {
       font-size: 1.5em;
       @media (min-width: 768px) {
-        font-size: 2em;
+        font-size: 1.8em;
       }
       margin: 0.5em 0 1em;
       background: $color-darker;
@@ -69,15 +66,15 @@ main {
     }
 
     #keyboard {
-      font-size: 1.3em;
       display: grid;
-      grid-template: repeat(5, 2.2em) / repeat(4, 1fr);
+      grid-template: repeat(5, 2.8em) / repeat(4, 1fr);
       gap: 0.4em;
       padding: 0.4em;
       background: $color-darker;
-      border-radius: 0.1em;
+      border-radius: 0.4em;
 
       button {
+        font-size: 1.5em;
         background-color: white;
         border: none;
         color: $color-darker;

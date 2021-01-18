@@ -37,12 +37,6 @@ main #calculator {
   border-radius: 0.4em;
 }
 
-@media (min-width: 768px) {
-  main #calculator {
-    font-size: 2rem;
-  }
-}
-
 main #calculator #header {
   height: 1em;
   line-height: 1em;
@@ -63,7 +57,7 @@ main #calculator #display {
 
 @media (min-width: 768px) {
   main #calculator #display {
-    font-size: 2em;
+    font-size: 1.8em;
   }
 }
 
@@ -74,19 +68,19 @@ main #calculator #display p {
 }
 
 main #calculator #keyboard {
-  font-size: 1.3em;
   display: -ms-grid;
   display: grid;
-  -ms-grid-rows: (2.2em)[5];
+  -ms-grid-rows: (2.8em)[5];
   -ms-grid-columns: (1fr)[4];
-      grid-template: repeat(5, 2.2em)/repeat(4, 1fr);
+      grid-template: repeat(5, 2.8em)/repeat(4, 1fr);
   gap: 0.4em;
   padding: 0.4em;
   background: #242423;
-  border-radius: 0.1em;
+  border-radius: 0.4em;
 }
 
 main #calculator #keyboard button {
+  font-size: 1.5em;
   background-color: white;
   border: none;
   color: #242423;
