@@ -1,0 +1,113 @@
+html {
+  font-size: 62.5%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: inherit;
+  font-size: 1em;
+}
+
+main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0.5em;
+  min-height: 100vh;
+  font-family: "Orbitron", sans-serif;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#bbb), to(#eee));
+  background-image: linear-gradient(#bbb, #eee);
+}
+
+main #calculator {
+  padding: 1em 0.5em;
+  width: 100%;
+  max-width: 25em;
+  font-size: 1.6rem;
+  background-color: #333533;
+  border-radius: 0.4em;
+}
+
+@media (min-width: 768px) {
+  main #calculator {
+    font-size: 2rem;
+  }
+}
+
+main #calculator #header {
+  height: 1em;
+  line-height: 1em;
+  text-align: left;
+  color: #bbb;
+}
+
+main #calculator #display {
+  font-size: 1.5em;
+  margin: 0.5em 0 1em;
+  background: #242423;
+  border: 1px solid #bbb;
+  border-radius: 0.4em;
+  color: #f5cb5c;
+  font-family: "Audiowide", cursive;
+  font-style: italic;
+}
+
+@media (min-width: 768px) {
+  main #calculator #display {
+    font-size: 2em;
+  }
+}
+
+main #calculator #display p {
+  margin: 0.5em;
+  height: 1em;
+  text-align: right;
+}
+
+main #calculator #keyboard {
+  font-size: 1.3em;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: (2.2em)[5];
+  -ms-grid-columns: (1fr)[4];
+      grid-template: repeat(5, 2.2em)/repeat(4, 1fr);
+  gap: 0.4em;
+  padding: 0.4em;
+  background: #242423;
+  border-radius: 0.1em;
+}
+
+main #calculator #keyboard button {
+  background-color: white;
+  border: none;
+  color: #242423;
+  border-radius: 0.1em;
+}
+
+main #calculator #keyboard button.operator {
+  background-color: #f5cb5c;
+}
+
+main #calculator #keyboard button.operator[id="equals"] {
+  background-color: #bbb;
+}
+
+main #calculator #keyboard button.interface {
+  background-color: #db5461;
+  color: white;
+}
+
+main #calculator #keyboard button:active {
+  -webkit-transform: scale(0.96);
+          transform: scale(0.96);
+}
+/*# sourceMappingURL=style.css.map */

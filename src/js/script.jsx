@@ -105,7 +105,12 @@ const buttons = [
 
 // ----- DISPLAY COMPONENT -----
 const Display = (props) => {
-  return <p id="display">{props.output}</p>;
+  return (
+    <div id="display">
+      <p>{props.output[0]}</p>
+      <p>{props.output[1]}</p>
+    </div>
+  );
 };
 
 // ----- BUTTON COMPONENT -----
@@ -294,7 +299,7 @@ class Calculator extends React.Component {
           num3 = num1 / num2;
           break;
       }
-      console.log(num1 + oper + num2 + "=" + num3);
+      // console.log(num1 + oper + num2 + "=" + num3);
       prev = Math.abs(num3).toString();
       if (num3 < 0) prevS = "-";
       else prevS = "";
@@ -342,20 +347,27 @@ class Calculator extends React.Component {
     if (str === "") return str;
     else {
       let newStr = parseFloat(str).toPrecision(9);
-      if (newStr.includes(".")) newStr = newStr.replace(/\.?0+$/, "");
+      if (newStr.includes(".") && !newStr.includes("e")) {
+        newStr = newStr.replace(/\.*0*$/, "");
+      }
       return newStr;
     }
   }
 
   // ----- RENDER -----
   render() {
-    const output = this.state.overflow
-      ? "Overflow"
-      : this.state.previousSign +
-        this.formatNum(this.state.previousNum) +
+    let output;
+    if (this.state.overflow) {
+      output = ["Overflow", ""];
+    } else {
+      output = [
+        this.state.previousSign + this.formatNum(this.state.previousNum),
         this.state.operator +
-        this.state.currentSign +
-        this.state.currentNum;
+          " " +
+          this.state.currentSign +
+          this.state.currentNum,
+      ];
+    }
 
     return (
       <div id="calculator">

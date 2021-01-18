@@ -9,68 +9,79 @@ $accent-dark: #db5461;
 $font-normal: "Orbitron", sans-serif;
 $font-em: "Audiowide", cursive;
 
-// DEFAULT VALUES
+html {
+  font-size: 62.5%;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: $font-normal;
-  // border: 1px solid;
+  font-family: inherit;
+  font-size: 1em;
+  // border: 1px solid white;
 }
 
 main {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5px;
+  padding: 0.5em;
   min-height: 100vh;
+  font-family: $font-normal;
   background-image: linear-gradient($color-medium, $color-light);
 
   #calculator {
-    padding: 10px;
-    width: 500px;
-    max-width: 100%;
+    padding: 1em 0.5em;
+    width: 100%;
+    max-width: 25em;
+    font-size: 1.6rem;
+    @media (min-width: 768px) {
+      font-size: 2rem;
+    }
     background-color: $color-dark;
-    border-radius: 5px;
+    border-radius: 0.4em;
 
     #header {
-      height: 30px;
-      line-height: 30px;
+      height: 1em;
+      line-height: 1em;
       text-align: left;
       color: $color-medium;
-      // text-transform: uppercase;
     }
 
     #display {
-      margin-top: 5px;
-      margin-bottom: 40px;
-      padding-left: 10px;
-      padding-right: 10px;
-      height: 50px;
-      line-height: 50px;
-      text-align: right;
+      font-size: 1.5em;
+      @media (min-width: 768px) {
+        font-size: 2em;
+      }
+      margin: 0.5em 0 1em;
       background: $color-darker;
       border: 1px solid $color-medium;
-      border-radius: 5px;
+      border-radius: 0.4em;
       color: $accent-light;
       font-family: $font-em;
-      font-size: 26px;
       font-style: italic;
+      p {
+        margin: 0.5em;
+        height: 1em;
+        text-align: right;
+      }
     }
 
     #keyboard {
+      font-size: 1.3em;
       display: grid;
-      grid-template: repeat(5, 45px) / repeat(4, 1fr);
-      gap: 7px;
-      padding: 20px;
+      grid-template: repeat(5, 2.2em) / repeat(4, 1fr);
+      gap: 0.4em;
+      padding: 0.4em;
       background: $color-darker;
-      border-radius: 5px;
+      border-radius: 0.1em;
 
       button {
         background-color: white;
         border: none;
         color: $color-darker;
-        font-size: 30px;
+        border-radius: 0.1em;
 
         &.operator {
           background-color: $accent-light;
